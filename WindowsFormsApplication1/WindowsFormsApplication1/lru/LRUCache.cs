@@ -52,7 +52,7 @@ namespace WindowsFormsApplication1.lru
             }
             else
             {
-                if (captity < list.Size())
+                if (captity == list.Size())
                 {
                     Node last = list.RemoveLast();
                     map.Remove(last.key);
@@ -62,6 +62,7 @@ namespace WindowsFormsApplication1.lru
             }
         }
 
+        #region test
         public void WirteLineNext()
         {
             list.WirteLineNext();
@@ -70,5 +71,6 @@ namespace WindowsFormsApplication1.lru
         {
             list.WirteLinePre();
         }
+        #endregion
     }
 }

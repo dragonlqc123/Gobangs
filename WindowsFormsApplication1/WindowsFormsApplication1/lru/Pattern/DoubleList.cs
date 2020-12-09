@@ -3,76 +3,77 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WindowsFormsApplication1.lru
+namespace WindowsFormsApplication1.lru.Pattern
 {
-    public class DoubleList
+    public class DoubleList<K,V> where V:ILRUNodeToString
     {
-        public Node Head;
-        public Node Tail;
-        public Node CNode;
-        public int size;
-        public void AddFirstNode(Node node)
+        public Node<K, V> CNode;
+        public Node<K, V> Head;
+        public Node<K, V> Tail;
+        private int size;
+        public void AddFirstNode(Node<K,V> node)
         {
             if (Head == null)
             {
                 Head = node;
-                Tail = node;
                 CNode = node;
+                Tail = node;
                 size = 1;
             }
             else
             {
                 CNode = Head;
                 Head = node;
-                Head.NexNode = CNode;
-                CNode.PreNode = Head;
-                size += 1;
+                Head.Next = CNode;
+                CNode.Pre = Head;
+                size+=1;
             }
         }
-
-        public void Remove(Node node)
+        public void Remove(Node<K,V> node)
         {
-            node.PreNode.NexNode = node.NexNode;
+            node.Pre.Next = node.Next;
             // 如果是Tail，需要特殊判断
-            if (node.NexNode != null)
+            if (node.Next != null)
             {
-                node.NexNode.PreNode = node.PreNode;
+                node.Next.Pre = node.Pre;
             }
             else
             {
-                Tail = node.PreNode;
+                Tail = node.Pre;
             }
             size -= 1;
         }
 
-        public Node RemoveLast()
+        public Node<K,V> RemoveLastNode()
         {
-            Node last = Tail;
-            Tail.PreNode.NexNode = null;
-            Tail = Tail.PreNode;
+            Node<K, V> last = Tail;
+            Tail.Pre.Next = null;
+            Tail = Tail.Pre;
             size -= 1;
             return last;
         }
+
         public int Size()
         {
             return size;
         }
 
+
         #region test
         public void WirteLineNext()
         {
             wirteN(Head);
-            Console.WriteLine("总共："+size+"个");
+            Console.WriteLine("总共：" + size + "个");
         }
 
-        private void wirteN(Node node)
+        private void wirteN(Node<K,V> node)
         {
             if (node != null)
             {
                 Console.WriteLine(node.ToString());
             }
-            if (node.NexNode != null)
-                wirteN(node.NexNode);
+            if (node.Next != null)
+                wirteN(node.Next);
         }
 
         public void WirteLinePre()
@@ -81,14 +82,14 @@ namespace WindowsFormsApplication1.lru
             Console.WriteLine("总共：" + size + "个");
         }
 
-        private void wirteP(Node node)
+        private void wirteP(Node<K, V> node)
         {
             if (node != null)
             {
                 Console.WriteLine(node.ToString());
             }
-            if (node.PreNode != null)
-                wirteP(node.PreNode);
+            if (node.Pre != null)
+                wirteP(node.Pre);
         }
         #endregion
     }

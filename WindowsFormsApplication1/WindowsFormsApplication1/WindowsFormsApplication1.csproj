@@ -115,9 +115,14 @@
     <Compile Include="Layout\ReturnInfo.cs" />
     <Compile Include="Layout\Tools\DrawTool.cs" />
     <Compile Include="Entity\Node.cs" />
+    <Compile Include="Tests\LruPatternTest.cs" />
+    <Compile Include="Tests\LruSingleTest.cs" />
     <Compile Include="lru\DoubleList.cs" />
     <Compile Include="lru\LRUCache.cs" />
     <Compile Include="lru\Node.cs" />
+    <Compile Include="lru\Pattern\DoubleList.cs" />
+    <Compile Include="lru\Pattern\LRUCache.cs" />
+    <Compile Include="lru\Pattern\Node.cs" />
     <Compile Include="operators\Computer.cs" />
     <Compile Include="operators\Operation.cs" />
     <Compile Include="operators\User.cs" />
