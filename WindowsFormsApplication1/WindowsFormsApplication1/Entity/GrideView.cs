@@ -53,7 +53,7 @@ namespace WindowsFormsApplication1
         {
             Node.SetNodeX(x);
             Node.SetNodeY(y);
-            //ShowAll();
+            ShowAll();
         }
 
         public void ShowInfo(int newLine)

@@ -24,22 +24,22 @@ namespace WindowsFormsApplication1.lru.Rectangle
             {
                 CNode = Head;
                 Head = node;
-                Head.R = CNode;
-                CNode.L = Head;
+                Head.Next = CNode;
+                CNode.Pre = Head;
                 size += 1;
             }
         }
         public void Remove(Node<K, V> node)
         {
-            node.L.R = node.R;
+            node.Pre.Next = node.Next;
             // 如果是Tail，需要特殊判断
-            if (node.R != null)
+            if (node.Next != null)
             {
-                node.R.L = node.L;
+                node.Next.Pre = node.Pre;
             }
             else
             {
-                Tail = node.L;
+                Tail = node.Pre;
             }
             size -= 1;
         }
@@ -47,8 +47,8 @@ namespace WindowsFormsApplication1.lru.Rectangle
         public Node<K, V> RemoveLastNode()
         {
             Node<K, V> last = Tail;
-            Tail.L.R = null;
-            Tail = Tail.L;
+            Tail.Pre.Next = null;
+            Tail = Tail.Pre;
             size -= 1;
             return last;
         }
@@ -72,8 +72,8 @@ namespace WindowsFormsApplication1.lru.Rectangle
             {
                 Console.WriteLine(node.ToString());
             }
-            if (node.R != null)
-                wirteN(node.R);
+            if (node.Next != null)
+                wirteN(node.Next);
         }
 
         public void WirteLinePre()
@@ -88,8 +88,8 @@ namespace WindowsFormsApplication1.lru.Rectangle
             {
                 Console.WriteLine(node.ToString());
             }
-            if (node.L != null)
-                wirteP(node.L);
+            if (node.Pre != null)
+                wirteP(node.Pre);
         }
         #endregion
     }

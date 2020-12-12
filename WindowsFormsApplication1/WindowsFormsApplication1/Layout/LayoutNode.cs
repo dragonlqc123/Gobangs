@@ -10,6 +10,8 @@ namespace WindowsFormsApplication1
     public class LayoutNode
     {
         private DrawTool _drawTool = null;
+        
+
         public LayoutNode()
         {
             _grideViews = new List<GrideView>();
@@ -27,14 +29,14 @@ namespace WindowsFormsApplication1
 
         private int maxRow = 0;
         private int maxCl = 0;
-
+   
         //private int minRow = 0;
         //private int minCl = 0;
         #region 
         /// <summary>
         /// 创建
         /// </summary>
-        public void Create(int r,int c,int x,int y, DrawTool drawTool)
+        public C_Point Create(int r,int c,int x,int y, DrawTool drawTool)
         {
             this._drawTool = drawTool;
             C_Point c_Point = new C_Point(r, c, x, y, drawTool);
@@ -47,10 +49,12 @@ namespace WindowsFormsApplication1
                 MessageBox.Show(x + "" + y);
             }
             _grideViews.Add(c_Point.GridView);
+            return c_Point;
         }
         
         public void ShengCheng()
         {
+            
             var rows = _grideViews.OrderByDescending(x => x.Row).ToList();
             var cls = _grideViews.OrderByDescending(x => x.Cl).ToList();
             maxRow = rows[0].Row;
@@ -97,14 +101,15 @@ namespace WindowsFormsApplication1
             var nodeMinC = _grideViews.OrderBy(x => x.Node.X).ToList();
 
             CheckFind = new CheckFind(nodeMaxR[0].Node.Y, nodeMaxC[0].Node.X, nodeMinR[0].Node.Y, nodeMinC[0].Node.X, _grideViews);
-
+             test = new RectangleNew.TestDemo(10000, _c_Points);
         }
-
+        RectangleNew.TestDemo test;
         public Node this[string key]
         {
             get
-            { 
-                if(_c_Points.ContainsKey(key))
+            {
+                var _a = test[key];
+                if (_c_Points.ContainsKey(key))
                     return _c_Points[key].GridView.Node;
                 return null;
             }

@@ -55,19 +55,9 @@ namespace WindowsFormsApplication1.lru.Rectangle
             }
             lis[row].Push(key,value);
         }
-
-
         public override void Push(K key, V value)
         {
             base.Push(key, value);
-        }
-
-        public void Load()
-        {
-            for (int i=0;i<lis.Count;i++)
-            {
-                lis[i].GetHashCode();
-            }
         }
     }
 }

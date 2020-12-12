@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using WindowsFormsApplication1.lru;
 
 namespace WindowsFormsApplication1
 {

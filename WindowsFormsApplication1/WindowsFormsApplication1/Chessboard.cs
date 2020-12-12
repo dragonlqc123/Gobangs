@@ -10,17 +10,23 @@ namespace WindowsFormsApplication1
         private LayoutNode LayoutNodes = new LayoutNode();
         private Context context = null;
         private DrawTool drawTool = null;
+        
         public Node CreateChessBoard(int[] xs, int[] ys,
             System.Windows.Forms.Control control,bool isBlanck)
         {
+            bool falg = true;
             drawTool = new DrawTool(control);
             for (int i = 0; i < xs.Length; i++)
             {
+                falg = true;
                 if (xs[i] == 0) continue;
                 for (int j = 0; j < ys.Length; j++)
                 {
                     if (ys[j] == 0) continue;
-                    LayoutNodes.Create(j, i, xs[i], ys[j], drawTool);
+                    C_Point c_Point= LayoutNodes.Create(j, i, xs[i], ys[j], drawTool);
+
+                   
+                    falg = false;
                 }
             }
 
