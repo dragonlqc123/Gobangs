@@ -5,10 +5,10 @@ using System.Text;
 
 namespace WindowsFormsApplication1.RectangleNew.Rectangles
 {
-    
-    public class Rectangle<K, V> : NodeMultiwayCache<K, V>, IRectangle<K, V> where V : IRectangleModel<K>
+
+    public class Rectangle<K, V> : NodeMultiwayCache<K, V>, IRectangle<K, V> where V : EntityData<K>, INodeCopy<V>
     {
-        private ScatterNode ScatterNode { get;}
+        private ScatterNode ScatterNode { get; }
         protected Rectangle(int captity) : base(captity)
         {
 
@@ -19,14 +19,20 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
         }
         public void AddNode(K key, V value)
         {
-            this.AddFirstNode(key,value);
+            this.AddFirstNode(key, value);
         }
 
         protected override V GetScatterNode(K key)
         {
-           return (V)ScatterNode(key);
+            return (V)ScatterNode(key);
         }
 
+        public void Analysis(K key, object condition)
+        {
+            var _a = base.SeacheNodes(key, condition);
+        }
+
+        #region Console
         public void TestWriteLineAll()
         {
             base.WriteLine(Direction.H, Sort.ASC);
@@ -75,6 +81,13 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
             var node = Summary_GetNode(key);
             base.WriteLine(direction, sort, node);
         }
+
+
+        public void TestAnalysis(K key, object condition, SearchTest<K> searchTest)
+        {
+            base.TestSeacheNodes(key, condition, searchTest);
+        }
+        #endregion
     }
 
 

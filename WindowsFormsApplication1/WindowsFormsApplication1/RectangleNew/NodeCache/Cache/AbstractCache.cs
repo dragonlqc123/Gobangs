@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WindowsFormsApplication1.RectangleNew
 {
-    public abstract class AbstractCache<K, V> : IAbstractCache<K, V> where V : ILRUNodeToString, INodeDirection<K>
+    public abstract class AbstractCache<K, V> : IAbstractCache<K, V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
     {
         protected Dictionary<K, Node<K, V>> Summary_map;
         protected NodeMultiway<K, V> Summary_list;
@@ -92,6 +92,27 @@ namespace WindowsFormsApplication1.RectangleNew
                 return new Node<K, V>(key, value);
         }
 
+        #region ISerchCache
+        protected NodeMultiway<K, V> TestSeacheNodes(K key, object condition, SearchTest<K> searchDelegate)
+        {
+            Node<K, V> _node = Summary_GetNode(key);
+            if (_node != null)
+            {
+                return Summary_list.GetAllDirection(_node.Copy(), condition, searchDelegate);
+            }
+            return null;
+        }
+        protected NodeMultiway<K, V> SeacheNodes(K key, object condition)
+        {
+            Node<K, V>  _node =Summary_GetNode(key);
+            if (_node != null)
+            {
+                return Summary_list.GetAllDirection(_node.Copy(), condition);
+            }
+            return null;
+        }
+
+        #endregion
         #region test
 
         public void WriteLine(Direction direction, Sort sort)
@@ -103,7 +124,7 @@ namespace WindowsFormsApplication1.RectangleNew
                     H_list.H_WirteLine_L();
                 }
                 else
-                    H_list.H_WirteLine_L();
+                    H_list.H_WirteLine_R();
 
             }
             else if (direction == Direction.S)
@@ -193,5 +214,12 @@ namespace WindowsFormsApplication1.RectangleNew
     {
        ASC,
        DESC,
+    }
+
+    public interface IOperation
+    {
+        void SelectLine();
+        void SelectAllLine();
+        
     }
 }

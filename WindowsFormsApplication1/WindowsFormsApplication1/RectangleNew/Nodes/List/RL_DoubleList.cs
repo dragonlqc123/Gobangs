@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WindowsFormsApplication1.RectangleNew
 {
-    public abstract class RL_DoubleList<K, V> : LR_DoubleList<K, V> where V : ILRUNodeToString, INodeDirection<K>
+    public abstract class RL_DoubleList<K, V> : LR_DoubleList<K, V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
     {
         public Node<K, V> RL_CNode;
         public Node<K, V> RL_Head;
@@ -66,6 +66,47 @@ namespace WindowsFormsApplication1.RectangleNew
         {
             return RL_size;
         }
+
+
+        #region 根据节点找出一条线
+
+        protected RL_DoubleList<K, V> RL_Line(Node<K, V> node, object obj, RL_DoubleList<K, V> rl_DoubleList)
+        {
+            //RL_DoubleList<K, V> rl_DoubleList = new NodeMultiway<K, V>();
+            R_LD(node.Copy(), obj, rl_DoubleList);
+            R_RU(node.Copy(), obj, rl_DoubleList);
+            return rl_DoubleList;
+        }
+
+        private void R_LD(Node<K, V> node, object obj, RL_DoubleList<K, V> rl_DoubleList)
+        {
+            if (node != null)
+            {
+                if (node.SerchNode(obj))
+                {
+                    if (node.R_LD != null)
+                        R_LD(node.R_LD, obj, rl_DoubleList);
+                    rl_DoubleList.RL_AddNode(node);
+                    R_LD_Delegate(node.Value);
+                }
+            }
+        }
+
+        private void R_RU(Node<K, V> node, object obj, RL_DoubleList<K, V> rl_DoubleList)
+        {
+            if (node.R_RU != null)
+            {
+                if (node.R_RU.SerchNode(obj))
+                {
+                    R_RU(node.R_RU, obj, rl_DoubleList);
+                    rl_DoubleList.RL_InsertNode(node, node.R_RU);
+                    R_RU_Delegate(node.R_RU.Value);
+                }
+            }
+        }
+
+        #endregion
+
         #region test
         public void RL_WirteLine_R_RU()
         {

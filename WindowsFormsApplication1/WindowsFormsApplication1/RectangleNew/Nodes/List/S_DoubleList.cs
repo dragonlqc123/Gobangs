@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WindowsFormsApplication1.RectangleNew
 {
-    public abstract class S_DoubleList<K, V> : H_DoubleList<K, V> where V : ILRUNodeToString, INodeDirection<K>
+    public abstract class S_DoubleList<K, V> : H_DoubleList<K, V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
     {
         public Node<K, V> S_CNode;
         public Node<K, V> S_Head;
@@ -65,6 +65,44 @@ namespace WindowsFormsApplication1.RectangleNew
         {
             return S_size;
         }
+        #region 根据节点找出一条线
+
+        protected S_DoubleList<K, V> S_Line(Node<K, V> node, object obj, S_DoubleList<K, V> s_DoubleList)
+        {
+            //S_DoubleList<K, V> s_DoubleList = new NodeMultiway<K, V>();
+            S_D(node.Copy(), obj, s_DoubleList);
+            S_U(node.Copy(), obj, s_DoubleList);
+            return s_DoubleList;
+        }
+
+        private void S_D(Node<K, V> node, object obj, S_DoubleList<K, V> s_DoubleList)
+        {
+            if (node != null)
+            {
+                if (node.SerchNode(obj))
+                {
+                    if (node.D != null)
+                        S_D(node.D, obj, s_DoubleList);
+                    s_DoubleList.S_AddNode(node);
+                    D_Delegate(node.Value);
+                }
+            }
+        }
+
+        private void S_U(Node<K, V> node, object obj, S_DoubleList<K, V> s_DoubleList)
+        {
+            if (node.U != null)
+            {
+                if (node.U.SerchNode(obj))
+                {
+                    S_U(node.U, obj, s_DoubleList);
+                    s_DoubleList.S_InsertNode(node, node.U);
+                    U_Delegate(node.U.Value);
+                }
+            }
+        }
+
+        #endregion
 
         #region test
         public void S_WirteLine_U()

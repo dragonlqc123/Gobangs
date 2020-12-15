@@ -5,10 +5,10 @@ using System.Text;
 using System.Windows.Forms;
 using WindowsFormsApplication1.RectangleNew.Rectangles;
 
-namespace WindowsFormsApplication1.delete
+namespace WindowsFormsApplication1
 {
 
-    public class C_Point: IRectangleModel<string>
+    public class C_Point: RectangleNew.Rectangles.EntityData<string> //RectangleNew.Rectangles.IRectangleModel<string,C_Point>
     {
         private const int Margin = 100;
         public GrideView GridView { get; set; }
@@ -33,21 +33,21 @@ namespace WindowsFormsApplication1.delete
 
 
         #region 
-        public string _L => (X-Margin)+","+Y;
+        public override string _L => (X-Margin)+","+Y;
 
-        public string _R => (X + Margin) + "," + Y;
+        public override string _R => (X + Margin) + "," + Y;
 
-        public string _U => X + "," + (Y-Margin);
+        public override string _U => X + "," + (Y-Margin);
 
-        public string _D => X + "," + (Y + Margin);
+        public override string _D => X + "," + (Y + Margin);
 
-        public string _L_LU => (X-Margin) + "," + (Y - Margin);
+        public override string _L_LU => (X-Margin) + "," + (Y - Margin);
 
-        public string _L_RD => (X + Margin) + "," + (Y + Margin);
+        public override string _L_RD => (X + Margin) + "," + (Y + Margin);
 
-        public string _R_RU => (X + Margin) + "," + (Y - Margin);
+        public override string _R_RU => (X + Margin) + "," + (Y - Margin);
 
-        public string _R_LD => (X - Margin) + "," + (Y + Margin);
+        public override string _R_LD => (X - Margin) + "," + (Y + Margin);
 
 
         #endregion
@@ -62,19 +62,27 @@ namespace WindowsFormsApplication1.delete
         /// </summary>
         /// <param name="conditionType"></param>
         /// <returns></returns>
-        public bool SerchNode(object conditionType)
+        public override bool SerchNode(object conditionType)
         {
             return true;
             throw new NotImplementedException();
         }
 
-        public C_Point Copy()
+        //public override C_Point Copy()
+        //{
+        //    C_Point c_Point = new C_Point(this.X, this.Y);
+        //    c_Point.GridView = this.GridView.Copy();
+        //    return c_Point;
+        //    throw new NotImplementedException();
+        //}
+
+        public override EntityData<string> Copy()
         {
             C_Point c_Point = new C_Point(this.X, this.Y);
             c_Point.GridView = this.GridView.Copy();
             return c_Point;
+            throw new NotImplementedException();
         }
-
         //public override C_Point Copy()
         //{
         //    C_Point c_Point = new C_Point(this.X,this.Y);

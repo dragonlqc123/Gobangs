@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WindowsFormsApplication1.RectangleNew
 {
-    public abstract class LR_DoubleList<K, V>:S_DoubleList<K, V> where V : ILRUNodeToString, INodeDirection<K>
+    public abstract class LR_DoubleList<K, V>:S_DoubleList<K, V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
     {
         public Node<K, V> LR_CNode;
         public Node<K, V> LR_Head;
@@ -65,6 +65,45 @@ namespace WindowsFormsApplication1.RectangleNew
         {
             return LR_size;
         }
+        
+        #region 根据节点找出一条线
+
+        protected LR_DoubleList<K, V> LR_Line(Node<K, V> node, object obj, LR_DoubleList<K, V> lr_DoubleList)
+        {
+            //LR_DoubleList<K, V> lr_DoubleList = new NodeMultiway<K, V>();
+            L_RD(node.Copy(), obj, lr_DoubleList);
+            L_LU(node.Copy(), obj, lr_DoubleList);
+            return lr_DoubleList;
+        }
+
+        private void L_RD(Node<K, V> node, object obj, LR_DoubleList<K, V> LR_DoubleList)
+        {
+            if (node != null)
+            {
+                if (node.SerchNode(obj))
+                {
+                    if (node.L_RD != null)
+                        L_RD(node.L_RD, obj, LR_DoubleList);
+                    LR_DoubleList.LR_AddNode(node);
+                    L_RD_Delegate(node.Value);
+                }
+            }
+        }
+
+        private void L_LU(Node<K, V> node, object obj, LR_DoubleList<K, V> LR_DoubleList)
+        {
+            if (node.L_LU != null)
+            {
+                if (node.L_LU.SerchNode(obj))
+                {
+                    L_LU(node.L_LU, obj, LR_DoubleList);
+                    LR_DoubleList.LR_InsertNode(node, node.L_LU);
+                    L_LU_Delegate(node.L_LU.Value);
+                }
+            }
+        }
+
+        #endregion
 
         #region test
         public void LR_WirteLine_L_LU()

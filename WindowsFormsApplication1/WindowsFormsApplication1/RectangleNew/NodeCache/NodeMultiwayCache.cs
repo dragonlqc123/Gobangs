@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WindowsFormsApplication1.RectangleNew
 {
-    public abstract class NodeMultiwayCache<K, V> : RL_Cache<K, V> where V : ILRUNodeToString, INodeDirection<K>
+    public abstract class NodeMultiwayCache<K, V> : RL_Cache<K, V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
     {
         #region 
         public NodeMultiwayCache(int captity) : base(captity)

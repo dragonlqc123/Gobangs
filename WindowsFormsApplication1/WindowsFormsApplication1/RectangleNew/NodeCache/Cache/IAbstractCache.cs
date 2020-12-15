@@ -9,4 +9,9 @@ namespace WindowsFormsApplication1.RectangleNew
     {
         V Summary_Get(K key);
     }
+
+    public interface ISeachCache<K,V>
+    {
+        //V SeacheNodes(K key, Direction direction, object condition);
+    }
 }

@@ -38,7 +38,17 @@ namespace WindowsFormsApplication1
             }
             return returnInfo;
         }
-
+        public ReturnInfo TestNext(int state, int x, int y, int qz)
+        {
+            ReturnInfo returnInfo = user.GetReturn(false);
+            if (IsVaild(state, x, y, qz))
+            {
+                return user.GetReturn(true);
+            }
+            var _operator = user.Next(this);
+            this.SetState(this.user);
+            return null;
+        }
         private bool IsVaild(int state, int x, int y, int qz)
         {
             return m_operator.Check(state, x, y,qz);

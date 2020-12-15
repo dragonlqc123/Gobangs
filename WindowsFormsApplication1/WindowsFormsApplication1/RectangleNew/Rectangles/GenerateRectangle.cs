@@ -7,13 +7,13 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
 {
     public class GenerateRectangle<Key>
     {
-        IRectangle<Key, IRectangleModel<Key>> rectangle;
+        IRectangle<Key, EntityData<Key>> rectangle;
 
-        Dictionary<Key, IRectangleModel<Key>> _c_Points;
-        public GenerateRectangle(int captity, Dictionary<Key, IRectangleModel<Key>> c_Points)
+        Dictionary<Key, EntityData<Key>> _c_Points;
+        public GenerateRectangle(int captity, Dictionary<Key, EntityData<Key>> c_Points)
         {
-            rectangle = new Rectangle<Key, IRectangleModel<Key>>(captity, new ScatterNode(ScatterNode));
-            _c_Points = c_Points;
+            rectangle = new Rectangle<Key, EntityData<Key>> (captity, new ScatterNode(ScatterNode));
+             _c_Points = c_Points;
             InitData();
         }
 
@@ -44,6 +44,11 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
             }
         }
 
+        public void TestAnalysis(Key key, object condition, SearchTest<Key> searchTest)
+        {
+             rectangle.TestAnalysis( key,  condition, searchTest);
+        }
+        #region Console
         public void TestWriteLineAll()
         {
             rectangle.TestWriteLineAll();
@@ -60,5 +65,6 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
         {
             rectangle.WriteLineAll(key);
         }
+        #endregion
     }
 }

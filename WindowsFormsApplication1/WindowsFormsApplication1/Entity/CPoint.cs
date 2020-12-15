@@ -12,10 +12,18 @@ namespace WindowsFormsApplication1
 
         public CPoint(int x, int y, DrawTool drawTool)
         {
-            this.X = x;
-            this.Y = y;
-            PointF = new System.Drawing.PointF(x, y);
-            this.drawTool = drawTool;
+            try
+
+            {
+                this.X = x;
+                this.Y = y;
+                PointF = new System.Drawing.PointF(x, y);
+                this.drawTool = drawTool;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public int X { get; set; }

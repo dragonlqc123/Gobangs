@@ -17,7 +17,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        public string ID { get { return this.X + "" + this.Y; } }
+        public string ID { get { return this.X + "，" + this.Y; } }
 
         public int X { get; set; }
         public int Y { get; set; }

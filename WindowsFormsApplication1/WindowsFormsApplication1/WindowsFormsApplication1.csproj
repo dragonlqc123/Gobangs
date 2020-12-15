@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\delete\C_Point.cs" />
     <Compile Include="Entity\Direction\HENG.cs" />
     <Compile Include="Entity\Direction\Nodes.cs" />
     <Compile Include="Entity\Direction\SHU.cs" />

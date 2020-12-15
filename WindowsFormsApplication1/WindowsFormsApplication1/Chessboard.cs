@@ -30,10 +30,16 @@ namespace WindowsFormsApplication1
                 }
             }
 
-           LayoutNodes.ShengCheng();
+            LayoutNodes.ShengCheng();
             context = new Context(LayoutNodes, new User(LayoutNodes));
+            //LayoutNodes.Test(context);
             return LayoutNodes.CenterNode;
 
+        }
+
+        public void TestAddNode(int state, int x, int y, int qz)
+        {
+            context.TestNext(state, x, y, qz);
         }
         public ReturnInfo AddNode(int state, int x, int y,int qz)
         {

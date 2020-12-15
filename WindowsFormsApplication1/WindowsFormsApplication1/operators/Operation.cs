@@ -22,7 +22,7 @@ namespace WindowsFormsApplication1
 
         protected Node SetState(int state, int x, int y,int qz)
         {
-            var node = LayoutNodes[x + "" + y];
+            var node = LayoutNodes[x + "," + y];
             bool falg = node.SetState(isBlanck, state);
             if(falg) drawTool.DrawPiece(x, y,qz,isBlanck);
             return node;

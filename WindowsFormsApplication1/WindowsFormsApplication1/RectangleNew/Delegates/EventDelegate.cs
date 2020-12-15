@@ -8,5 +8,6 @@ namespace WindowsFormsApplication1.RectangleNew
 
     public delegate void RectangAddFirstComplate(object obj);
     public delegate object ScatterNode(object key);
-
+    public delegate void SeachePath<V>(V value);
+    public delegate void SearchTest<K>(object entityData);
 }

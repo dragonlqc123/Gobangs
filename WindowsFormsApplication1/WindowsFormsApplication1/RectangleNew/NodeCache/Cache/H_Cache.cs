@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WindowsFormsApplication1.RectangleNew
 {
-    public abstract class H_Cache<K, V>: CacheBase<K, V> where V : ILRUNodeToString, INodeDirection<K>
+    public abstract class H_Cache<K, V>: CacheBase<K, V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
     {
         //protected Dictionary<K, Node<K, V>> map;
         //protected NodeMultiway<K, V> list;

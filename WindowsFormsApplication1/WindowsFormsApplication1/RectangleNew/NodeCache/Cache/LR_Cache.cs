@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WindowsFormsApplication1.RectangleNew
 {
-    public abstract class LR_Cache<K, V>: S_Cache<K, V> where V : ILRUNodeToString, INodeDirection<K>
+    public abstract class LR_Cache<K, V>: S_Cache<K, V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
     {
         public LR_Cache(int captity) : base(captity)
         {

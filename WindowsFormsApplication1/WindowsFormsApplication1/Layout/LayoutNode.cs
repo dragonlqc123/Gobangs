@@ -40,13 +40,13 @@ namespace WindowsFormsApplication1
         {
             this._drawTool = drawTool;
             C_Point c_Point = new C_Point(r, c, x, y, drawTool);
-            if (!_c_Points.ContainsKey(x + "" + y))
+            if (!_c_Points.ContainsKey(x + "," + y))
             {
-                _c_Points.Add(x + "" + y, c_Point);
+                _c_Points.Add(x + "," + y, c_Point);
             }
             else
             {
-                MessageBox.Show(x + "" + y);
+                MessageBox.Show(x + "," + y);
             }
             _grideViews.Add(c_Point.GridView);
             return c_Point;
@@ -101,14 +101,24 @@ namespace WindowsFormsApplication1
             var nodeMinC = _grideViews.OrderBy(x => x.Node.X).ToList();
 
             CheckFind = new CheckFind(nodeMaxR[0].Node.Y, nodeMaxC[0].Node.X, nodeMinR[0].Node.Y, nodeMinC[0].Node.X, _grideViews);
-             test = new RectangleNew.TestDemo(10000, _c_Points);
+            
         }
+
         RectangleNew.TestDemo test;
+        public void Test(Context context)
+        {
+            test = new RectangleNew.TestDemo(10000, _c_Points);
+            test.testContext = context;
+            test.Test(CenterNode.cpoint.X+","+CenterNode.cpoint.Y);
+        }
         public Node this[string key]
         {
             get
             {
-                var _a = test[key];
+                if (test != null)
+                {
+                    var _a = test[key];
+                }
                 if (_c_Points.ContainsKey(key))
                     return _c_Points[key].GridView.Node;
                 return null;

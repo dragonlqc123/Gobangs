@@ -20,7 +20,7 @@ namespace WindowsFormsApplication1
 
         public override Node Defense(int x, int y, Context context, int qz)
         {
-            var node = LayoutNodes[x + "" + y];
+            var node = LayoutNodes[x + "," + y];
             analysis = new Analysis(LayoutNodes.CheckFind.Copy(), node, !base.IsBlanck);
             Analysis analysis1 = new Analysis(LayoutNodes.CheckFind.Copy(), CurentNode, base.IsBlanck);
             Contrast Contrast = new Contrast(analysis, analysis1);
