@@ -57,22 +57,34 @@ namespace WindowsFormsApplication1.delete
             return "X="+X+",Y="+Y;
         }
 
-        /// <summary>
-        /// 根据颜色查找，并且有值或者为空
-        /// </summary>
-        /// <param name="conditionType"></param>
-        /// <returns></returns>
-        public bool SerchNode(object conditionType)
-        {
-            return true;
-            throw new NotImplementedException();
-        }
 
         public C_Point Copy()
         {
             C_Point c_Point = new C_Point(this.X, this.Y);
             c_Point.GridView = this.GridView.Copy();
             return c_Point;
+        }
+
+        /// <summary>
+        /// 根据颜色查找，并且有值或者为空
+        /// </summary>
+        /// <param name="conditionType"></param>
+        /// <returns></returns>
+        public bool SerchNode(object senderArgs)
+        {
+            if (this.GridView.Node.IsBlanck == null || this.GridView.Node.IsBlanck == Boolean.Parse(senderArgs.ToString()))
+                return true;
+            else return false;
+            throw new NotImplementedException();
+        }
+        public string ToIdentification(object senderArgs)
+        {
+            if (this.GridView.Node.IsBlanck == null)
+                return "+";
+            else if (this.GridView.Node.IsBlanck == Boolean.Parse(senderArgs.ToString()))
+                return "O";
+         
+            return "-1";
         }
 
         //public override C_Point Copy()

@@ -74,10 +74,45 @@ namespace WindowsFormsApplication1.RectangleNew
                 R_LD_Path(value);
             }
         }
+
+        protected SeachePath<DoubleListDelegate<V>> HL_PathComplate;
+        protected SeachePath<DoubleListDelegate<V>> LR_PathComplate;
+        protected SeachePath<DoubleListDelegate<V>> RL_PathComplate;
+        protected SeachePath<DoubleListDelegate<V>> S_PathComplate;
+
+        protected void HL_DelegateComplate(DoubleListDelegate<V> value)
+        {
+            if (HL_PathComplate != null)
+            {
+                HL_PathComplate(value);
+            }
+        }
+        protected void LR_DelegateComplate(DoubleListDelegate<V> value)
+        {
+            if (LR_PathComplate != null)
+            {
+                LR_PathComplate(value);
+            }
+        }
+        protected void RL_DelegateComplate(DoubleListDelegate<V> value)
+        {
+            if (RL_PathComplate != null)
+            {
+                RL_PathComplate(value);
+            }
+        }
+        protected void S_DelegateComplate(DoubleListDelegate<V> value)
+        {
+            if (S_PathComplate != null)
+            {
+                S_PathComplate(value);
+            }
+        }
+
     }
-    public abstract class H_DoubleList<K, V>: DoubleListDelegate<V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
+    public abstract class H_DoubleList<K, V> : DoubleListDelegate<V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
     {
-        public Node<K, V> H_CNode;
+        private Node<K, V> H_CNode;
         public Node<K, V> H_Head;
         public Node<K, V> H_Tail;
         private int H_size;
@@ -100,7 +135,7 @@ namespace WindowsFormsApplication1.RectangleNew
                 H_size += 1;
             }
         }
-        public void H_InsertNode(Node<K, V> currentNode,Node<K, V> new_Node)
+        public void H_InsertNode(Node<K, V> currentNode, Node<K, V> new_Node)
         {
             currentNode.R = new_Node;
             new_Node.L = currentNode;
@@ -137,22 +172,23 @@ namespace WindowsFormsApplication1.RectangleNew
 
         #region 根据节点找出一条线
 
-        protected H_DoubleList<K, V> H_Line(Node<K, V> node,object obj, H_DoubleList<K, V> h_DoubleList)
+        protected H_DoubleList<K, V> H_Line(Node<K, V> node, object obj, H_DoubleList<K, V> h_DoubleList)
         {
             //H_DoubleList<K, V> h_DoubleList = new NodeMultiway<K, V>();
             H_R(node.Copy(), obj, h_DoubleList);
             H_L(node.Copy(), obj, h_DoubleList);
+            HL_DelegateComplate(h_DoubleList);
             return h_DoubleList;
         }
 
-        protected void H_R(Node<K, V> node,object obj, H_DoubleList<K, V> h_DoubleList)
+        protected void H_R(Node<K, V> node, object obj, H_DoubleList<K, V> h_DoubleList)
         {
             if (node != null)
             {
                 if (node.SerchNode(obj))
                 {
-                    if (node.R != null)
-                        H_R(node.R, obj, h_DoubleList);
+                    if (node.L != null)
+                        H_R(node.L, obj, h_DoubleList);
                     h_DoubleList.H_AddNode(node);
                     R_Delegate(node.Value);
                 }
@@ -161,20 +197,21 @@ namespace WindowsFormsApplication1.RectangleNew
 
         private void H_L(Node<K, V> node, object obj, H_DoubleList<K, V> h_DoubleList)
         {
-            if (node.L != null)
+            if (node.R != null)
             {
-                if (node.L.SerchNode(obj))
+                if (node.R.SerchNode(obj))
                 {
-                    H_L(node.L, obj, h_DoubleList);
-                    h_DoubleList.H_InsertNode(node, node.L);
-                    L_Delegate(node.L.Value);
+                    H_L(node.R, obj, h_DoubleList);
+                    h_DoubleList.H_InsertNode(node, node.R);
+                    L_Delegate(node.R.Value);
                 }
             }
         }
-        
+
         #endregion
 
         #region test
+
         public void H_WirteLine_L()
         {
             H_WirteLine_L(H_Head);
@@ -185,11 +222,12 @@ namespace WindowsFormsApplication1.RectangleNew
         {
             if (node != null)
             {
-                Console.WriteLine("右边："+node.ToString()+" ");
+                Console.WriteLine("右边：" + node.ToString() + " ");
             }
             if (node.R != null)
                 H_WirteLine_L(node.R);
         }
+
         public void H_WirteLine1_L(Node<K, V> node)
         {
             if (node.R != null)
@@ -205,7 +243,7 @@ namespace WindowsFormsApplication1.RectangleNew
         {
             if (node != null)
             {
-                Console.WriteLine("左边："+node.ToString() + " ");
+                Console.WriteLine("左边：" + node.ToString() + " ");
             }
             if (node.L != null)
                 H_WirteLine_R(node.L);
@@ -218,6 +256,83 @@ namespace WindowsFormsApplication1.RectangleNew
         }
         #endregion
 
+        #region ILRUNodeToString 
+        public string H_ToIdentification(object senderArgs)
+        {
+            string value = "";
+            HLToString(H_Head, senderArgs, ref value);
+            return value;
+        }
+        private void HLToString(Node<K, V> node, object senderArgs, ref string value)
+        {
+            if (node != null)
+            {
+                value += node.ToIdentification(senderArgs);
+            }
+            if (node.R != null)
+                HLToString(node.R, senderArgs, ref value);
+        }
+        #endregion
+
+        #region Reset
+        protected void Reset_H(int leftCount, int rightCount)
+        {
+            if(leftCount>0)
+                _ResetHead(H_Head, 0, leftCount);
+            if (rightCount > 0)
+                _ResetTail(H_Tail, 0, rightCount);
+        }
+
+        private void _ResetHead(Node<K, V> node, int count, int totalCount)
+        {
+            if (node.R != null)
+            {
+                count++;
+                if (count == totalCount)
+                {
+                    H_Head = node.R;
+                }
+                else
+                    _ResetHead(node.R, count, totalCount);
+            }
+        }
+        private void _ResetTail(Node<K, V> node, int count, int totalCount)
+        {
+            if (node.L != null)
+            {
+                count++;
+                if (count == totalCount)
+                {
+                    H_Tail = node.L;
+                }
+                else
+                    _ResetTail(node.L, count, totalCount);
+            }
+        }
+        #endregion
+
+        #region Displacement
+
+        protected Node<K, V> Get_H(int totalCount)
+        {
+            if (totalCount == 1) return H_Head;
+            return H_Displacement(H_Head,1, totalCount);
+        }
+        private Node<K, V> H_Displacement(Node<K, V> node, int count, int totalCount)
+        {
+            if (node.R != null)
+            {
+                count++;
+                if (count == totalCount)
+                {
+                    return node.R;
+                }
+                else
+                    return H_Displacement(node.R, count, totalCount);
+            }
+            throw new Exception("没有获取到空位！");
+        }
+        #endregion
     }
 
 

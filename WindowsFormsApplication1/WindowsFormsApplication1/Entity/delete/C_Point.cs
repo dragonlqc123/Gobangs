@@ -62,19 +62,25 @@ namespace WindowsFormsApplication1
         /// </summary>
         /// <param name="conditionType"></param>
         /// <returns></returns>
-        public override bool SerchNode(object conditionType)
+        public override bool SerchNode(object senderArgs)
         {
-            return true;
+            if ((this.GridView.Node.IsBlanck == null || this.GridView.Node.IsBlanck == Boolean.Parse(senderArgs.ToString()))
+                && !IsIllegalSymbol(senderArgs))
+                return true;
+            else return false;
             throw new NotImplementedException();
         }
 
-        //public override C_Point Copy()
-        //{
-        //    C_Point c_Point = new C_Point(this.X, this.Y);
-        //    c_Point.GridView = this.GridView.Copy();
-        //    return c_Point;
-        //    throw new NotImplementedException();
-        //}
+        public override string ToIdentification(object senderArgs)
+        {
+            if (this.GridView.Node.IsBlanck == null)
+                return EmptySymbol();
+            else if (this.GridView.Node.IsBlanck == Boolean.Parse(senderArgs.ToString()))
+                return Symbol();
+            return IllegalSymbol();
+        }
+
+       
 
         public override EntityData<string> Copy()
         {
@@ -83,12 +89,25 @@ namespace WindowsFormsApplication1
             return c_Point;
             throw new NotImplementedException();
         }
-        //public override C_Point Copy()
-        //{
-        //    C_Point c_Point = new C_Point(this.X,this.Y);
-        //    c_Point.GridView = this.GridView.Copy();
-        //    return c_Point;
-        //    throw new NotImplementedException();
-        //}
+
+        public override string Symbol()
+        {
+            return "O";
+        }
+
+        public override bool IsIllegalSymbol(object senderArgs)
+        {
+            return this.ToIdentification(senderArgs) == IllegalSymbol();
+        }
+
+        public override string EmptySymbol()
+        {
+            return "+";
+        }
+
+        public override string IllegalSymbol()
+        {
+            return "$";
+        }
     }
 }

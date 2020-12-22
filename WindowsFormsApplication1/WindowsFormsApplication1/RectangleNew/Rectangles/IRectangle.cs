@@ -8,8 +8,9 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
     public interface IRectangle<K, V> : IAbstractCache<K, V> where V : EntityData<K>, INodeCopy<V>
     {
         void AddNode(K key, V value);
-         void Analysis(K key, object condition);
-       void TestAnalysis(K key, object condition, SearchTest<K> searchTest);
+         V Analysis(K key, object condition);
+         V TestAnalysis(K key, object condition, SearchTest<K> searchTest);
+        V Analysis(object attackCondition, object defenseCondition, GetAll<K> getAll, K key);
         //ScatterNode ScatterNode { get;}
         void TestWriteLineAll();
         void WriteLineAllDESC();

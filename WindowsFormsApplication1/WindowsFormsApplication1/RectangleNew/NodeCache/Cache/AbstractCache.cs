@@ -93,25 +93,33 @@ namespace WindowsFormsApplication1.RectangleNew
         }
 
         #region ISerchCache
-        protected NodeMultiway<K, V> TestSeacheNodes(K key, object condition, SearchTest<K> searchDelegate)
+        protected NodeMultiway<K, V> TestSeacheNodes(K key, object condition, SearchTest<K> searchDelegate, CalculateTheScore<K,V> calculateTheScore)
         {
             Node<K, V> _node = Summary_GetNode(key);
             if (_node != null)
             {
-                return Summary_list.GetAllDirection(_node.Copy(), condition, searchDelegate);
+                return Summary_list.GetAllDirection(_node.Copy(), condition, searchDelegate, calculateTheScore);
             }
             return null;
         }
-        protected NodeMultiway<K, V> SeacheNodes(K key, object condition)
+        protected NodeMultiway<K, V> SeacheNodes(K key, object condition, CalculateTheScore<K, V> calculateTheScore)
         {
             Node<K, V>  _node =Summary_GetNode(key);
             if (_node != null)
             {
-                return Summary_list.GetAllDirection(_node.Copy(), condition);
+                return Summary_list.GetAllDirection(_node, condition, calculateTheScore);
+            }
+            throw new NotImplementedException("SeacheNodes=>未处理没有找到异常，需要实现！");
+        }
+        protected NodeMultiway<K, V> GetNodes(K key, object condition, CalculateTheScore<K, V> calculateTheScore)
+        {
+            Node<K, V> _node = Summary_GetNode(key);
+            if (_node != null)
+            {
+                return Summary_list.GetAllDirection(_node, condition, calculateTheScore);
             }
             return null;
         }
-
         #endregion
         #region test
 

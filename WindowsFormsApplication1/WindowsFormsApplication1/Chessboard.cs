@@ -32,7 +32,7 @@ namespace WindowsFormsApplication1
 
             LayoutNodes.ShengCheng();
             context = new Context(LayoutNodes, new User(LayoutNodes));
-            //LayoutNodes.Test(context);
+            LayoutNodes.Test(context);
             return LayoutNodes.CenterNode;
 
         }

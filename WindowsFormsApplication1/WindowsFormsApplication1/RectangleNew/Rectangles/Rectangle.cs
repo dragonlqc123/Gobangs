@@ -8,15 +8,19 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
 
     public class Rectangle<K, V> : NodeMultiwayCache<K, V>, IRectangle<K, V> where V : EntityData<K>, INodeCopy<V>
     {
+        private TheScoreTemplate<K,V> theScoreTemplate;
+        private AnalysisRecursion<K, V> analysisRecursion;
         private ScatterNode ScatterNode { get; }
         protected Rectangle(int captity) : base(captity)
         {
-
+            analysisRecursion = new AnalysisRecursion<K, V>(AnalysisRecursion);
+            theScoreTemplate = new TheScoreTemplate<K,V>(analysisRecursion);
         }
         public Rectangle(int captity, ScatterNode scatterNode) : this(captity)
         {
             ScatterNode = scatterNode;
         }
+     
         public void AddNode(K key, V value)
         {
             this.AddFirstNode(key, value);
@@ -27,9 +31,69 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
             return (V)ScatterNode(key);
         }
 
-        public void Analysis(K key, object condition)
+        private NodeList<K, V> _Analysis(K key, object condition)
         {
-            var _a = base.SeacheNodes(key, condition);
+            CalculateTheScore<K, V> _calculateTheScore = new CalculateTheScore<K, V>(CaculateTheScore);
+            NodeMultiway<K, V> nodeMultiway = base.GetNodes(key, condition, _calculateTheScore);
+            if (nodeMultiway == null) return null;
+            var nodeList = nodeMultiway.ToList();
+            var _ls = nodeList.OrderByDescending(x => x.Score).ToList();
+            if (_ls != null && _ls.Count > 0)
+                return _ls[0];
+            return null;
+        }
+        public V Analysis(K key, object condition)
+        {
+            NodeList<K, V> node = _Analysis(key, condition);
+            if (node != null && node.Count > 0)
+                return node.GetV();
+            throw new NotImplementedException("Analysis=>未处理没有找到异常，需要实现！");
+        }
+
+        public V Analysis(object attackCondition, object defenseCondition, GetAll<K> getAll,K key)
+        {
+            //this.Summary_Get(key);
+            var _attack = GetAllNodes(getAll(attackCondition),attackCondition);
+            var _defense = GetAllNodes(getAll(defenseCondition),defenseCondition);
+            Comparer:
+            if (_attack == null && _defense == null)
+                throw new NotImplementedException("分析时引发未处理异常！");
+            var value = theScoreTemplate.AttackOrDefense(_attack, _defense);
+            if (value == null)
+            {
+                _attack = GetAllNodes(new List<K> { key }, attackCondition);
+                _defense = GetAllNodes(new List<K> { key }, defenseCondition);
+                goto Comparer;
+            }
+            Console.WriteLine("=================================================");
+            return value;
+        }
+
+        private INodeListScore<K, V> GetAllNodes(List<K> ks,object condition)
+        {
+            if (ks == null || ks.Count <= 0) return null;
+            List<NodeList<K, V>> nodeList = new List<NodeList<K, V>>();
+            foreach (K k in ks)
+            {
+                var _attackNew = _Analysis(k, condition);
+                if (_attackNew != null)
+                {
+                    nodeList.Add(_attackNew);
+                }
+            }
+            var _attack = nodeList.OrderByDescending(x => x.Score).FirstOrDefault();
+            return _attack;
+        }
+
+
+        private int AnalysisRecursion(IArgsTemplate<K, V> argsTemplate)
+        {
+            var node = _Analysis(argsTemplate.Node.Key, argsTemplate.SenderArgs);
+            if (node != null)
+            {
+                return node.Score;
+            }
+            return 0;
         }
 
         #region Console
@@ -83,9 +147,30 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
         }
 
 
-        public void TestAnalysis(K key, object condition, SearchTest<K> searchTest)
+        public V TestAnalysis(K key, object condition, SearchTest<K> searchTest)
         {
-            base.TestSeacheNodes(key, condition, searchTest);
+            CalculateTheScore<K,V> _calculateTheScore = new CalculateTheScore<K,V>(CaculateTheScore);
+            NodeMultiway < K, V > nodeMultiway= base.TestSeacheNodes(key, condition, searchTest, _calculateTheScore);
+            var nodeList = nodeMultiway.ToList();
+            var _ls = nodeList.OrderByDescending(x => x.Score).ToList();
+            if (_ls != null && _ls.Count > 0)
+                return _ls[0].GetV();
+            return null;
+        }
+
+        /// <summary>
+        /// 进行计算验证
+        /// </summary>
+        /// <param name="identification"></param>
+        /// <returns></returns>
+        private CalculateTheScoreArgs<K,V> CaculateTheScore(string identification)
+        {
+            try
+            {
+                return theScoreTemplate[identification];
+            }
+            catch (Exception ex)
+            { throw ex; }
         }
         #endregion
     }

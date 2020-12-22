@@ -7,7 +7,7 @@ namespace WindowsFormsApplication1.RectangleNew
 {
     public abstract class RL_DoubleList<K, V> : LR_DoubleList<K, V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
     {
-        public Node<K, V> RL_CNode;
+        private Node<K, V> RL_CNode;
         public Node<K, V> RL_Head;
         public Node<K, V> RL_Tail;
         private int RL_size;
@@ -75,6 +75,7 @@ namespace WindowsFormsApplication1.RectangleNew
             //RL_DoubleList<K, V> rl_DoubleList = new NodeMultiway<K, V>();
             R_LD(node.Copy(), obj, rl_DoubleList);
             R_RU(node.Copy(), obj, rl_DoubleList);
+            RL_DelegateComplate(rl_DoubleList);
             return rl_DoubleList;
         }
 
@@ -84,8 +85,8 @@ namespace WindowsFormsApplication1.RectangleNew
             {
                 if (node.SerchNode(obj))
                 {
-                    if (node.R_LD != null)
-                        R_LD(node.R_LD, obj, rl_DoubleList);
+                    if (node.R_RU != null)
+                        R_LD(node.R_RU, obj, rl_DoubleList);
                     rl_DoubleList.RL_AddNode(node);
                     R_LD_Delegate(node.Value);
                 }
@@ -94,13 +95,13 @@ namespace WindowsFormsApplication1.RectangleNew
 
         private void R_RU(Node<K, V> node, object obj, RL_DoubleList<K, V> rl_DoubleList)
         {
-            if (node.R_RU != null)
+            if (node.R_LD != null)
             {
-                if (node.R_RU.SerchNode(obj))
+                if (node.R_LD.SerchNode(obj))
                 {
-                    R_RU(node.R_RU, obj, rl_DoubleList);
-                    rl_DoubleList.RL_InsertNode(node, node.R_RU);
-                    R_RU_Delegate(node.R_RU.Value);
+                    R_RU(node.R_LD, obj, rl_DoubleList);
+                    rl_DoubleList.RL_InsertNode(node, node.R_LD);
+                    R_RU_Delegate(node.R_LD.Value);
                 }
             }
         }
@@ -147,6 +148,84 @@ namespace WindowsFormsApplication1.RectangleNew
         {
             if (node.R_RU != null)
                 RL_WirteLine_R_LD(node.R_RU);
+        }
+        #endregion
+
+        #region ILRUNodeToString 
+        public string RL_ToIdentification(object senderArgs)
+        {
+            string value = "";
+            RLToString(RL_Head, senderArgs,ref value);
+            return value;
+        }
+        private void RLToString(Node<K, V> node, object senderArgs,ref string value)
+        {
+            if (node != null)
+            {
+                value += node.ToIdentification(senderArgs);
+            }
+            if (node.R_LD != null)
+                RLToString(node.R_LD, senderArgs,ref value);
+        }
+        #endregion
+
+        #region Reset
+        protected void Reset_RL(int leftCount, int rightCount)
+        {
+            if(leftCount>0)
+                _ResetHead(RL_Head, 0, leftCount);
+            if (rightCount > 0)
+                _ResetTail(RL_Tail, 0, rightCount);
+        }
+
+        private void _ResetHead(Node<K, V> node, int count, int totalCount)
+        {
+            if (node.R_LD != null)
+            {
+                count++;
+                if (count == totalCount)
+                {
+                    RL_Head = node.R_LD;
+                }
+                else
+                    _ResetHead(node.R_LD, count, totalCount);
+            }
+        }
+        private void _ResetTail(Node<K, V> node, int count, int totalCount)
+        {
+            if (node.R_RU != null)
+            {
+                count++;
+                if (count == totalCount)
+                {
+                    RL_Tail = node.R_RU;
+                }
+                else
+                    _ResetTail(node.R_RU, count, totalCount);
+            }
+        }
+        #endregion
+
+        #region Displacement
+
+        protected Node<K, V> Get_RL(int totalCount)
+        {
+            if (totalCount == 1) return RL_Head;
+            return RL_Displacement(RL_Head, 1, totalCount);
+        }
+        private Node<K, V> RL_Displacement(Node<K, V> node, int count, int totalCount)
+        {
+            if (node.R_LD != null)
+            {
+                count++;
+                if (count == totalCount)
+                {
+                    return node.R_LD;
+                }
+                else
+                    return RL_Displacement(node.R_LD, count, totalCount);
+            }
+            throw new Exception("没有获取到空位！");
         }
         #endregion
     }

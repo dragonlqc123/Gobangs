@@ -104,24 +104,26 @@ namespace WindowsFormsApplication1
             
         }
 
-        RectangleNew.TestDemo test;
+        public RectangleNew.TestDemo test;
         public void Test(Context context)
         {
-            test = new RectangleNew.TestDemo(10000, _c_Points);
+            test = new RectangleNew.TestDemo(10000, _c_Points,_grideViews);
             test.testContext = context;
-            test.Test(CenterNode.cpoint.X+","+CenterNode.cpoint.Y);
+            //test.Test(CenterNode.cpoint.X+","+CenterNode.cpoint.Y);
         }
         public Node this[string key]
         {
             get
             {
-                if (test != null)
-                {
+                //return test.Test(key).GridView.Node;
+                //if (test != null)
+                //{
                     var _a = test[key];
-                }
-                if (_c_Points.ContainsKey(key))
-                    return _c_Points[key].GridView.Node;
-                return null;
+                    return _a.GridView.Node;
+                //}
+                //if (_c_Points.ContainsKey(key))
+                //    return _c_Points[key].GridView.Node;
+                //return null;
             }
         }
         #endregion

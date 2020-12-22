@@ -102,7 +102,6 @@
     <Compile Include="Chessboard.cs" />
     <Compile Include="Com.cs" />
     <Compile Include="Entity\CPoint.cs" />
-    <Compile Include="Entity\C_Point.cs" />
     <Compile Include="Entity\GrideView.cs" />
     <Compile Include="Entity\Position.cs" />
     <Compile Include="Form2.cs">
@@ -137,10 +136,21 @@
     <Compile Include="RectangleNew\Nodes\List\Node.cs" />
     <Compile Include="RectangleNew\Nodes\List\RL_DoubleList.cs" />
     <Compile Include="RectangleNew\Nodes\List\S_DoubleList.cs" />
+    <Compile Include="RectangleNew\Nodes\Strategy\Args\StrategyArgs.cs" />
+    <Compile Include="RectangleNew\Nodes\Strategy\INodeList.cs" />
+    <Compile Include="RectangleNew\Nodes\Strategy\IScore.cs" />
+    <Compile Include="RectangleNew\Nodes\Strategy\NodeList.cs" />
     <Compile Include="RectangleNew\Rectangles\GenerateRectangle.cs" />
     <Compile Include="RectangleNew\Rectangles\IRectangleModel.cs" />
     <Compile Include="RectangleNew\Rectangles\IRectangle.cs" />
     <Compile Include="RectangleNew\Rectangles\Rectangle.cs" />
+    <Compile Include="RectangleNew\Rectangles\Strategy\StrategyArgs.cs" />
+    <Compile Include="RectangleNew\Rectangles\TheScoreTemplates\Template\subTemplate\TheScoreSubTemplate1.cs" />
+    <Compile Include="RectangleNew\Rectangles\TheScoreTemplates\Template\subTemplate\TheScoreSubTemplate2.cs" />
+    <Compile Include="RectangleNew\Rectangles\TheScoreTemplates\TheScoreTemplate.cs" />
+    <Compile Include="RectangleNew\Rectangles\TheScoreTemplates\Template\TheScoreTemplate1.cs" />
+    <Compile Include="RectangleNew\Rectangles\TheScoreTemplates\Template\TheScoreTemplate2.cs" />
+    <Compile Include="RectangleNew\Rectangles\TheScoreTemplates\Template\TheScoreTemplateBase.cs" />
     <Compile Include="RectangleNew\TestDemos\TestDemo.cs" />
     <Compile Include="StateMachine\Context.cs" />
     <EmbeddedResource Include="Form2.resx">
@@ -177,7 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entity\Direction\branch\" />
-    <Folder Include="Layout\Analysis\branch\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

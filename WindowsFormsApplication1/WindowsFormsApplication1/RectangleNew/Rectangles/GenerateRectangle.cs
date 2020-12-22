@@ -5,11 +5,15 @@ using System.Text;
 
 namespace WindowsFormsApplication1.RectangleNew.Rectangles
 {
+    /// <summary>
+    /// 添加总体扫描
+    /// 添加查询个数总数；
+    /// </summary>
+    /// <typeparam name="Key"></typeparam>
     public class GenerateRectangle<Key>
     {
-        IRectangle<Key, EntityData<Key>> rectangle;
-
-        Dictionary<Key, EntityData<Key>> _c_Points;
+        private IRectangle<Key, EntityData<Key>> rectangle;
+        private Dictionary<Key, EntityData<Key>> _c_Points;
         public GenerateRectangle(int captity, Dictionary<Key, EntityData<Key>> c_Points)
         {
             rectangle = new Rectangle<Key, EntityData<Key>> (captity, new ScatterNode(ScatterNode));
@@ -44,10 +48,21 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
             }
         }
 
-        public void TestAnalysis(Key key, object condition, SearchTest<Key> searchTest)
+        public EntityData<Key> TestAnalysis(Key key, object condition, SearchTest<Key> searchTest)
         {
-             rectangle.TestAnalysis( key,  condition, searchTest);
+           return rectangle.TestAnalysis(key, condition, searchTest);
         }
+        public EntityData<Key> Analysis(Key key, object condition)
+        {
+            return rectangle.Analysis(key, condition);
+        }
+
+        public EntityData<Key> Analysis(object attackCondition, object defenseCondition, GetAll<Key> getAll,Key key)
+        {
+            return rectangle.Analysis(attackCondition, defenseCondition, getAll, key);
+        }
+
+
         #region Console
         public void TestWriteLineAll()
         {

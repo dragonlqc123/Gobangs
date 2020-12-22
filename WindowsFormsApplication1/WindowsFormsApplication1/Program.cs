@@ -19,6 +19,6 @@ namespace WindowsFormsApplication1
             //LruSingleTest.Test();
             //LruPatternTest.Test();
         }
-     
+
     }
 }

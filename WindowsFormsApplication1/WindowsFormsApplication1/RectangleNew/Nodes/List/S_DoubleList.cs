@@ -7,7 +7,7 @@ namespace WindowsFormsApplication1.RectangleNew
 {
     public abstract class S_DoubleList<K, V> : H_DoubleList<K, V> where V : ILRUNodeToString, INodeDirection<K>, INodeSerach, INodeCopy<V>
     {
-        public Node<K, V> S_CNode;
+        private Node<K, V> S_CNode;
         public Node<K, V> S_Head;
         public Node<K, V> S_Tail;
         private int S_size;
@@ -72,6 +72,7 @@ namespace WindowsFormsApplication1.RectangleNew
             //S_DoubleList<K, V> s_DoubleList = new NodeMultiway<K, V>();
             S_D(node.Copy(), obj, s_DoubleList);
             S_U(node.Copy(), obj, s_DoubleList);
+            S_DelegateComplate(s_DoubleList);
             return s_DoubleList;
         }
 
@@ -81,8 +82,8 @@ namespace WindowsFormsApplication1.RectangleNew
             {
                 if (node.SerchNode(obj))
                 {
-                    if (node.D != null)
-                        S_D(node.D, obj, s_DoubleList);
+                    if (node.U != null)
+                        S_D(node.U, obj, s_DoubleList);
                     s_DoubleList.S_AddNode(node);
                     D_Delegate(node.Value);
                 }
@@ -91,13 +92,13 @@ namespace WindowsFormsApplication1.RectangleNew
 
         private void S_U(Node<K, V> node, object obj, S_DoubleList<K, V> s_DoubleList)
         {
-            if (node.U != null)
+            if (node.D != null)
             {
-                if (node.U.SerchNode(obj))
+                if (node.D.SerchNode(obj))
                 {
-                    S_U(node.U, obj, s_DoubleList);
-                    s_DoubleList.S_InsertNode(node, node.U);
-                    U_Delegate(node.U.Value);
+                    S_U(node.D, obj, s_DoubleList);
+                    s_DoubleList.S_InsertNode(node, node.D);
+                    U_Delegate(node.D.Value);
                 }
             }
         }
@@ -144,6 +145,85 @@ namespace WindowsFormsApplication1.RectangleNew
         {
             if (node.U != null)
                 S_WirteLine_D(node.U);
+        }
+        #endregion
+
+        #region ILRUNodeToString 
+        public string S_ToIdentification(object senderArgs)
+        {
+            string value = "";
+            SToString(S_Head, senderArgs, ref value);
+            return value;
+        }
+        private void SToString(Node<K, V> node, object senderArgs,ref string value)
+        {
+            if (node != null)
+            {
+                value += node.ToIdentification(senderArgs);
+            }
+            if (node.D != null)
+                SToString(node.D, senderArgs,ref value);
+        }
+        #endregion
+
+
+        #region Reset
+        protected void Reset_S(int leftCount, int rightCount)
+        {
+            if (leftCount > 0)
+                _ResetHead(S_Head, 0, leftCount);
+            if (rightCount > 0)
+                _ResetTail(S_Tail, 0, rightCount);
+        }
+
+        private void _ResetHead(Node<K, V> node, int count, int totalCount)
+        {
+            if (node.D != null)
+            {
+                count++;
+                if (count == totalCount)
+                {
+                   S_Head = node.D;
+                }
+                else
+                    _ResetHead(node.D, count, totalCount);
+            }
+        }
+        private void _ResetTail(Node<K, V> node, int count, int totalCount)
+        {
+            if (node.U != null)
+            {
+                count++;
+                if (count == totalCount)
+                {
+                    S_Tail = node.U;
+                }
+                else
+                    _ResetTail(node.U, count, totalCount);
+            }
+        }
+        #endregion
+
+        #region Displacement
+
+        protected Node<K, V> Get_S(int totalCount)
+        {
+            if (totalCount == 1) return S_Head;
+            return S_Displacement(S_Head, 1, totalCount);
+        }
+        private Node<K, V> S_Displacement(Node<K, V> node, int count, int totalCount)
+        {
+            if (node.D != null)
+            {
+                count++;
+                if (count == totalCount)
+                {
+                    return node.D;
+                }
+                else
+                    return S_Displacement(node.D, count, totalCount);
+            }
+            throw new Exception("没有获取到空位！");
         }
         #endregion
     }

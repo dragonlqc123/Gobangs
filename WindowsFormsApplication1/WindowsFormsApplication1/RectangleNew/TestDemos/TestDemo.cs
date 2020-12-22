@@ -9,9 +9,13 @@ namespace WindowsFormsApplication1.RectangleNew
     public class TestDemo
     {
         public Context testContext = null;
-        GenerateRectangle<string> generateRectangle;
-        SearchTest<string> searchTest; 
-        public TestDemo(int captity, Dictionary<string,C_Point> c_Points)
+        private GenerateRectangle<string> generateRectangle;
+        private SearchTest<string> searchTest;
+        private List<GrideView> _grideViews;
+        private GetAll<string> _getAllDelegate;
+
+
+        private TestDemo(int captity, Dictionary<string,C_Point> c_Points)
         {
             Dictionary<string, EntityData<string>> rectangleModel = new Dictionary<string, EntityData<string>>();
             foreach (string key in c_Points.Keys)
@@ -21,25 +25,54 @@ namespace WindowsFormsApplication1.RectangleNew
             generateRectangle = new GenerateRectangle<string>(1000000, rectangleModel);
             searchTest = new SearchTest<string>(TestPath);
         }
+        public TestDemo(int captity, Dictionary<string, C_Point> c_Points, List<GrideView> grideViews) : this(captity, c_Points)
+        {
+            _grideViews = grideViews;
+            _getAllDelegate = new GetAll<string>(GetAll);
+        }
 
-        public TestDemo(int captity, Dictionary<string, EntityData<string>> c_Points)
+        private TestDemo(int captity, Dictionary<string, EntityData<string>> c_Points)
         {
             generateRectangle = new GenerateRectangle<string>(10000, c_Points);
         }
 
-        public IRectangleModel<string> this[string key]
+        public C_Point this[string key]
         {
             get
             {
                 //Console.WriteLine("=========================");
                 //generateRectangle.WriteLineAll(key);
-                return generateRectangle[key];
+                return (C_Point)generateRectangle[key];
             }
         }
 
-        public void Test(string key)
+        public C_Point AttackorDefense(bool? attackCondition,bool? defenseCondition,string key)
         {
-           generateRectangle.TestAnalysis(key, true, searchTest);
+            var c_Point = (C_Point)generateRectangle.Analysis(attackCondition, defenseCondition, _getAllDelegate,key);
+            if (c_Point != null)
+            {
+                return this[c_Point.X+","+c_Point.Y];
+            }
+            throw new NotImplementedException("未实现找不到后的处理结果！！");
+        }
+
+        private List<string> GetAll(object attackOrdefenseCondition)
+        {
+            //_grideViews.Where(z => z.Node.State == state && z.Node.IsBlanck == isBlanck).ToList();
+            List<GrideView> grideViews = _grideViews.Where(z => z.Node.IsBlanck == (bool?)attackOrdefenseCondition).ToList();
+            List<string> _ls = new List<string>();
+            foreach (var _g in grideViews)
+            {
+                _ls.Add(_g.Node.cpoint.X + "," + _g.Node.cpoint.Y);
+            }
+            return _ls;
+        }
+
+
+        #region test
+        public C_Point Test(string key)
+        {
+           return (C_Point)generateRectangle.TestAnalysis(key, true, searchTest);
         }
 
         private void TestPath(object obj)
@@ -52,5 +85,7 @@ namespace WindowsFormsApplication1.RectangleNew
             }
             Console.WriteLine(c_Point.X+","+ c_Point.Y);
         }
+        #endregion
+
     }
 }
