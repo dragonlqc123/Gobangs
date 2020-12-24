@@ -43,9 +43,11 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
                     return strategyArgs;
                 }
                 AddCache:
-                    this.WriteTheScoreTemplate(key + "="+key.Split('O').Length, base.FileName);
-                    _subTemplateDic2 = InitTheScoreTemplate(base.FileName);
-                    return Get(key);
+                int _newKey = key.Split('+').Length * 2 + key.Split('O').Length;
+                this.WriteTheScoreTemplate(key + "=" + _newKey, base.FileName);
+                //this.WriteTheScoreTemplate(key + "=" + key.Split('O').Length, base.FileName);
+                _subTemplateDic2 = InitTheScoreTemplate(base.FileName);
+                return Get(key);
             }
             catch (Exception ex)
             {

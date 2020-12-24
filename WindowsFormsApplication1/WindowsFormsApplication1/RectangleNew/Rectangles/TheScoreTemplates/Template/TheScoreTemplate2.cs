@@ -60,7 +60,8 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
                     AddCache:
                     if (key.Contains("+"))
                     {
-                        this.WriteTheScoreTemplate(key + "="+ key.Split('+').Length, base.FileName);
+                        int _newKey = key.Split('+').Length + key.Split('O').Length * 2;
+                        this.WriteTheScoreTemplate(key + "="+ _newKey, base.FileName);
                         _templateDic2 = InitTheScoreTemplate(base.FileName);
                         return this[key];
                     }

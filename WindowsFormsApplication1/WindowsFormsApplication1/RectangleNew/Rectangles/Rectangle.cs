@@ -42,6 +42,15 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
                 return _ls[0];
             return null;
         }
+        private List<NodeList<K, V>> _Analysis1(K key, object condition)
+        {
+            CalculateTheScore<K, V> _calculateTheScore = new CalculateTheScore<K, V>(CaculateTheScore);
+            NodeMultiway<K, V> nodeMultiway = base.GetNodes(key, condition, _calculateTheScore);
+            if (nodeMultiway == null) return null;
+            var nodeList = nodeMultiway.ToList();
+            var _ls = nodeList.OrderByDescending(x => x.Score).ToList();
+            return _ls;
+        }
         public V Analysis(K key, object condition)
         {
             NodeList<K, V> node = _Analysis(key, condition);
@@ -53,16 +62,16 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
         public V Analysis(object attackCondition, object defenseCondition, GetAll<K> getAll,K key)
         {
             //this.Summary_Get(key);
-            var _attack = GetAllNodes(getAll(attackCondition),attackCondition);
-            var _defense = GetAllNodes(getAll(defenseCondition),defenseCondition);
+            var _attack = GetAllNodes1(getAll(attackCondition),attackCondition);
+            var _defense = GetAllNodes1(getAll(defenseCondition),defenseCondition);
             Comparer:
             if (_attack == null && _defense == null)
                 throw new NotImplementedException("分析时引发未处理异常！");
             var value = theScoreTemplate.AttackOrDefense(_attack, _defense);
             if (value == null)
             {
-                _attack = GetAllNodes(new List<K> { key }, attackCondition);
-                _defense = GetAllNodes(new List<K> { key }, defenseCondition);
+                _attack = GetAllNodes1(new List<K> { key }, attackCondition);
+                _defense = GetAllNodes1(new List<K> { key }, defenseCondition);
                 goto Comparer;
             }
             Console.WriteLine("=================================================");
@@ -85,6 +94,21 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
             return _attack;
         }
 
+        private INodeListScore<K, V> GetAllNodes1(List<K> ks, object condition)
+        {
+            if (ks == null || ks.Count <= 0) return null;
+            List<NodeList<K, V>> nodeList = new List<NodeList<K, V>>();
+            foreach (K k in ks)
+            {
+                var _attackNew = _Analysis1(k, condition);
+                if (_attackNew != null&& _attackNew.Count>0)
+                {
+                    nodeList.AddRange(_attackNew);
+                }
+            }
+            var _attack = nodeList.OrderByDescending(x => x.Score).FirstOrDefault();
+            return _attack;
+        }
 
         private int AnalysisRecursion(IArgsTemplate<K, V> argsTemplate)
         {

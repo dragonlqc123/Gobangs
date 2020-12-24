@@ -33,7 +33,7 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
         public abstract string EmptySymbol();
         public abstract string IllegalSymbol();
         public abstract bool IsIllegalSymbol(object senderArgs);
-
+        public abstract int MaxCount();
         public abstract bool SerchNode(object conditionType);
         public abstract string Symbol();
         public abstract string ToIdentification(object conditionType);

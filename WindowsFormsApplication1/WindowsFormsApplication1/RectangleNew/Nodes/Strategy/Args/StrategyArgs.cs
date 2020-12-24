@@ -56,6 +56,7 @@ namespace WindowsFormsApplication1.RectangleNew
         INode<K, V> Node { get; }
         String NewTemplateSorce { get; }
         object SenderArgs { get; }
+        int Weight { get; }
     }
 
     /// <summary>
@@ -65,35 +66,71 @@ namespace WindowsFormsApplication1.RectangleNew
     /// <typeparam name="V"></typeparam>
     public class ArgsTemplate<K, V> : IArgsTemplate<K, V>
     {
-        private object _senderArgs;
-        public ArgsTemplate(INode<K, V> node, string templateStr,int position,string symbol,object senderArgs)
+       
+        public ArgsTemplate(INode<K, V> node, string templateStr, int position, string symbol, object senderArgs)
         {
             //_senderArgs = senderArgs;
             Node = node;
-            string begin = templateStr.Substring(0,position-1);
+            string begin = templateStr.Substring(0, position - 1);
             string end = templateStr.Substring(position);
-            NewTemplateSorce = begin+ symbol + end;
-            if (NewTemplateSorce.Length > 5)
+            NewTemplateSorce = begin + symbol + end;
+            if (NewTemplateSorce.Length%2==1 && NewTemplateSorce.Length !=1)
             {
-                NewTemplateSorce = GetString(NewTemplateSorce.ToCharArray(0, 5));
+                int zj = int.Parse((NewTemplateSorce.Length / 2).ToString());
+                var _newStr = NewTemplateSorce.Insert(zj - 1, "-");
+
+                string[] chars =_newStr.Split('-');
+                if (chars[0].Split('+').Length > chars[1].Split('+').Length)
+                {
+                    if (position < chars[0].Length)
+                    {
+                        Weight = 1;
+                    }
+                    else if (position == chars[0].Length)
+                    {
+                        Weight = 2;
+                    }
+                }
+                if (chars[0].Split('+').Length < chars[1].Split('+').Length)
+                {
+                    if (position > chars[0].Length)
+                    {
+                        Weight = 1;
+                    }
+                    else if (position == chars[0].Length)
+                    {
+                        Weight = 2;
+                    }
+                }
+                //int zj = int.Parse((NewTemplateSorce.Length / 2).ToString())-1;
+                //char[] chars = NewTemplateSorce.ToCharArray();
+                //for (int i = 0; i < chars.Length; i++)
+                //{
+                //    if (i == zj)
+                //    {
+
+                //    }
+                //}
             }
             SenderArgs = senderArgs;
         }
-        private string GetString(Char[] arrays)
-        {
-            string result = "";
-            foreach (var _a in arrays)
-            {
-                result += _a;
-            }
-            return result;
-        }
+        //private string GetString(Char[] arrays)
+        //{
+        //    string result = "";
+        //    foreach (var _a in arrays)
+        //    {
+        //        result += _a;
+        //    }
+        //    return result;
+        //}
 
         public INode<K, V> Node { get; }
 
         public string NewTemplateSorce { get; }
 
-       public object SenderArgs { get; }
+        public object SenderArgs { get; }
+
+        public int Weight{ get; private set; }
     }
 
     public interface IStrategyArgs<K, V>

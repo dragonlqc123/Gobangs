@@ -43,7 +43,7 @@ namespace WindowsFormsApplication1.RectangleNew
             InitRegister();
             return GetAllDirection(node, senderArgs, _calculateTheScore);
         }
-        public string ASSSSSS { get { return this.H_ToIdentification(this._senderArgs); } }
+      
         #region test
         protected void Test(V value)
         {

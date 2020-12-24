@@ -76,7 +76,7 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
                     //var _result = this[_index.NewTemplateSorce];
                     //var _score = _analysisRecursion(_index);  
                     if (_result == null) continue;
-                    scoreList.Add(new ScoreEntity<K, V>(_index, _result, _result.Score));
+                    scoreList.Add(new ScoreEntity<K, V>(_index, _result, _result.Score+_index.Weight));
                 }
                 return scoreList;
             }

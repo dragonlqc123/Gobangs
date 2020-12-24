@@ -277,6 +277,7 @@ namespace WindowsFormsApplication1.RectangleNew
         bool IsIllegalSymbol(object senderArgs);
         string IllegalSymbol();
         string EmptySymbol();
+        int MaxCount();
 
     }
 

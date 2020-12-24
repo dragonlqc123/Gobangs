@@ -109,5 +109,10 @@ namespace WindowsFormsApplication1
         {
             return "$";
         }
+
+        public override int MaxCount()
+        {
+            return 6;
+        }
     }
 }
