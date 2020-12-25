@@ -21,37 +21,40 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
             {
                 try
                 {
-                    List<int> strategyIndexs = new List<int>();
-                    int sorce = 0;
-                    string templateStr = null;
-                    string _totalStrs;
-                    string _subStrs;
-                    foreach (var _tempStr in _templateDic1.Keys)
+                    if (key.Length >= 5)
                     {
-                        if (key.Length > _tempStr.Length) { _totalStrs = key; _subStrs = _tempStr; }
-                        else { _totalStrs = _tempStr; _subStrs = key; }
-                        if (_totalStrs.Contains(_subStrs))
+                        List<int> strategyIndexs = new List<int>();
+                        int sorce = 0;
+                        string templateStr = null;
+                        string _totalStrs;
+                        string _subStrs;
+                        foreach (var _tempStr in _templateDic1.Keys)
                         {
-
-                            var _sorce = _templateDic1[_tempStr];
-                            if (_sorce > sorce)
+                            if (key.Length > _tempStr.Length) { _totalStrs = key; _subStrs = _tempStr; }
+                            else { _totalStrs = _tempStr; _subStrs = key; }
+                            if (_totalStrs.Contains(_subStrs))
                             {
-                                templateStr = _tempStr;
-                                sorce = _sorce;
+
+                                var _sorce = _templateDic1[_tempStr];
+                                if (_sorce > sorce)
+                                {
+                                    templateStr = _tempStr;
+                                    sorce = _sorce;
+                                }
                             }
                         }
+                        if (templateStr != null && key.Length >= templateStr.Length)
+                        {
+                            int[] items = QueryString(key, templateStr);
+                            strategyIndexs = GetStoma(templateStr);
+                            CalculateTheScoreArgs<K, V> strategyArgs = new CalculateTheScoreArgs<K, V>(strategyTheScore, sorce, templateStr, items[0], items[1], strategyIndexs);
+                            return strategyArgs;
+                        }
                     }
-                    if (templateStr != null && key.Length >= templateStr.Length)
-                    {
-                        int[] items = QueryString(key, templateStr);
-                        strategyIndexs = GetStoma(templateStr);
-                        CalculateTheScoreArgs<K, V> strategyArgs = new CalculateTheScoreArgs<K, V>(strategyTheScore, sorce, templateStr, items[0], items[1], strategyIndexs);
-                        return strategyArgs;
-                    }
-                    else
-                    {
+                    //else
+                    //{
                         return _scoreTemplate2[key];
-                    }
+                    //}
                 }
                 catch (Exception ex)
                 {
