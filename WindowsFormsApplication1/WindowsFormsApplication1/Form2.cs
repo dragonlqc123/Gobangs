@@ -36,13 +36,13 @@ namespace WindowsFormsApplication1
         /// 棋盘初始大小
         /// </summary>
         
-        private int hw = 100;
+        private int hw = CheckerboardConfig.Margin;
 
         /// <summary>
         /// 棋子大小
         /// </summary>
        
-        private int qz = 10;
+        private int qz = CheckerboardConfig.Piece;
 
         #region 
 
@@ -112,10 +112,10 @@ namespace WindowsFormsApplication1
         
         private void DrawLine(int FcellWidth)
         {
+            /// 行边距
+            int rolMarginWidth = CheckerboardConfig.RolMarginWidth;
             /// 列边距
-            int rolMarginWidth = 50;
-            /// 列边距
-            int colMarginWidth = 50;
+            int colMarginWidth = CheckerboardConfig.ColMarginWidth;
             ////////////////////////////////
 
             int cellWidth = cb.CbCell = FcellWidth;

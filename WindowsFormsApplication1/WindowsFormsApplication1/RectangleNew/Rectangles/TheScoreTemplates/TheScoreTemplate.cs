@@ -90,8 +90,19 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
         {
             return default(V);
         }
-        
 
+        public bool CheckVictory<K, V>(List<NodeList<K, V>> nodeLists) where V : EntityData<K>, INodeCopy<V>
+        {
+            if (nodeLists != null)
+            {
+                var _ls = nodeLists.Where(x => x.Score >= 50000).ToList();
+                if (_ls != null && _ls.Count > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
 

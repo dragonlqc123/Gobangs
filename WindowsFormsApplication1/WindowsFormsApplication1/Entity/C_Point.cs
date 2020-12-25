@@ -5,12 +5,11 @@ using System.Text;
 using System.Windows.Forms;
 using WindowsFormsApplication1.RectangleNew.Rectangles;
 
-namespace WindowsFormsApplication1.delete
+namespace WindowsFormsApplication1
 {
 
-    public class C_Point: IRectangleModel<string>
+    public class C_Point: RectangleNew.Rectangles.EntityData<string> //RectangleNew.Rectangles.IRectangleModel<string,C_Point>
     {
-        private const int Margin = 100;
         public GrideView GridView { get; set; }
 
         public System.Drawing.PointF PointF { get; set; }
@@ -33,21 +32,21 @@ namespace WindowsFormsApplication1.delete
 
 
         #region 
-        public string _L => (X-Margin)+","+Y;
+        public override string _L => (X- CheckerboardConfig.Margin) +","+Y;
 
-        public string _R => (X + Margin) + "," + Y;
+        public override string _R => (X + CheckerboardConfig.Margin) + "," + Y;
 
-        public string _U => X + "," + (Y-Margin);
+        public override string _U => X + "," + (Y- CheckerboardConfig.Margin);
 
-        public string _D => X + "," + (Y + Margin);
+        public override string _D => X + "," + (Y + CheckerboardConfig.Margin);
 
-        public string _L_LU => (X-Margin) + "," + (Y - Margin);
+        public override string _L_LU => (X- CheckerboardConfig.Margin) + "," + (Y - CheckerboardConfig.Margin);
 
-        public string _L_RD => (X + Margin) + "," + (Y + Margin);
+        public override string _L_RD => (X + CheckerboardConfig.Margin) + "," + (Y + CheckerboardConfig.Margin);
 
-        public string _R_RU => (X + Margin) + "," + (Y - Margin);
+        public override string _R_RU => (X + CheckerboardConfig.Margin) + "," + (Y - CheckerboardConfig.Margin);
 
-        public string _R_LD => (X - Margin) + "," + (Y + Margin);
+        public override string _R_LD => (X - CheckerboardConfig.Margin) + "," + (Y + CheckerboardConfig.Margin);
 
 
         #endregion
@@ -57,42 +56,62 @@ namespace WindowsFormsApplication1.delete
             return "X="+X+",Y="+Y;
         }
 
-
-        public C_Point Copy()
-        {
-            C_Point c_Point = new C_Point(this.X, this.Y);
-            c_Point.GridView = this.GridView.Copy();
-            return c_Point;
-        }
-
         /// <summary>
         /// 根据颜色查找，并且有值或者为空
         /// </summary>
         /// <param name="conditionType"></param>
         /// <returns></returns>
-        public bool SerchNode(object senderArgs)
+        public override bool SerchNode(object senderArgs)
         {
-            if (this.GridView.Node.IsBlanck == null || this.GridView.Node.IsBlanck == Boolean.Parse(senderArgs.ToString()))
+            if ((this.GridView.Node.IsBlanck == null || this.GridView.Node.IsBlanck == Boolean.Parse(senderArgs.ToString()))
+                && !IsIllegalSymbol(senderArgs))
                 return true;
             else return false;
             throw new NotImplementedException();
         }
-        public string ToIdentification(object senderArgs)
+
+        public override string ToIdentification(object senderArgs)
         {
             if (this.GridView.Node.IsBlanck == null)
-                return "+";
+                return EmptySymbol();
             else if (this.GridView.Node.IsBlanck == Boolean.Parse(senderArgs.ToString()))
-                return "O";
-         
-            return "-1";
+                return Symbol();
+            return IllegalSymbol();
         }
 
-        //public override C_Point Copy()
-        //{
-        //    C_Point c_Point = new C_Point(this.X,this.Y);
-        //    c_Point.GridView = this.GridView.Copy();
-        //    return c_Point;
-        //    throw new NotImplementedException();
-        //}
+       
+
+        public override EntityData<string> Copy()
+        {
+            C_Point c_Point = new C_Point(this.X, this.Y);
+            c_Point.GridView = this.GridView.Copy();
+            return c_Point;
+            throw new NotImplementedException();
+        }
+
+        public override string Symbol()
+        {
+            return "O";
+        }
+
+        public override bool IsIllegalSymbol(object senderArgs)
+        {
+            return this.ToIdentification(senderArgs) == IllegalSymbol();
+        }
+
+        public override string EmptySymbol()
+        {
+            return "+";
+        }
+
+        public override string IllegalSymbol()
+        {
+            return "$";
+        }
+
+        public override int MaxCount()
+        {
+            return 6;
+        }
     }
 }

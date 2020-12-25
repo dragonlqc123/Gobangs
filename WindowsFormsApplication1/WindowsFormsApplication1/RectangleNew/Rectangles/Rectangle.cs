@@ -42,7 +42,8 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
                 return _ls[0];
             return null;
         }
-        private List<NodeList<K, V>> _Analysis1(K key, object condition)
+
+        private List<NodeList<K, V>> _AnalysisList(K key, object condition)
         {
             CalculateTheScore<K, V> _calculateTheScore = new CalculateTheScore<K, V>(CaculateTheScore);
             NodeMultiway<K, V> nodeMultiway = base.GetNodes(key, condition, _calculateTheScore);
@@ -100,7 +101,7 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
             List<NodeList<K, V>> nodeList = new List<NodeList<K, V>>();
             foreach (K k in ks)
             {
-                var _attackNew = _Analysis1(k, condition);
+                var _attackNew = _AnalysisList(k, condition);
                 if (_attackNew != null&& _attackNew.Count>0)
                 {
                     nodeList.AddRange(_attackNew);
@@ -118,6 +119,12 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
                 return node.Score;
             }
             return 0;
+        }
+
+        public bool CheckVictory(K key, object condition)
+        {
+            List < NodeList < K, V >>  nodeLists = this._AnalysisList(key,condition);
+            return theScoreTemplate.CheckVictory(nodeLists);
         }
 
         #region Console

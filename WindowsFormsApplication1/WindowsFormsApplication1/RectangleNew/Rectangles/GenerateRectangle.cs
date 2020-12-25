@@ -62,7 +62,10 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
             return rectangle.Analysis(attackCondition, defenseCondition, getAll, key);
         }
 
-
+        public bool CheckVictory(Key key, object condition)
+        {
+            return rectangle.CheckVictory(key,condition);
+        }
         #region Console
         public void TestWriteLineAll()
         {

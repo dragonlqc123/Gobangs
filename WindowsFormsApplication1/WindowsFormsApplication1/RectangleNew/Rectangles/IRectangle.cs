@@ -17,5 +17,6 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
         void WriteLineAllASC();
         void WriteLine(Direction direction, Sort sort, K key);
         void WriteLineAll(K key);
+        bool CheckVictory(K key, object condition);
     }
 }

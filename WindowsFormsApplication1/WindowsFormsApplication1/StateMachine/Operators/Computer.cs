@@ -7,7 +7,7 @@ namespace WindowsFormsApplication1
 {
     public class Computer : Operation
     {
-        private Analysis analysis;
+        //private Analysis analysis;
         private Node CurentNode;
         public Computer(LayoutNode layoutNodes) : base(true, layoutNodes)
         {

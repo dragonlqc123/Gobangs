@@ -31,7 +31,9 @@ namespace WindowsFormsApplication1
         public bool Check(int state, int x, int y, int qz)
         {
             Node node = this.SetState(state, x,y,qz);
-            return layoutNodes.CheckFind.Check(node, isBlanck);
+            //return false;
+            //return layoutNodes.CheckFind.Check(node, isBlanck);
+            return layoutNodes.test.CheckVictory(node,isBlanck);
         }
 
         /// <summary>

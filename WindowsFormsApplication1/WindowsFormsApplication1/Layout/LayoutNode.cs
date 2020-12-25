@@ -22,7 +22,7 @@ namespace WindowsFormsApplication1
 
         private Dictionary<string,C_Point> _c_Points { get; set; }
 
-        public CheckFind CheckFind { get; set; }
+        //public CheckFind CheckFind { get; set; }
         public DrawTool DrawTool { get => _drawTool; }
 
         public Node CenterNode = null;
@@ -100,7 +100,7 @@ namespace WindowsFormsApplication1
             var nodeMinR = _grideViews.OrderBy(x => x.Node.Y).ToList();
             var nodeMinC = _grideViews.OrderBy(x => x.Node.X).ToList();
 
-            CheckFind = new CheckFind(nodeMaxR[0].Node.Y, nodeMaxC[0].Node.X, nodeMinR[0].Node.Y, nodeMinC[0].Node.X, _grideViews);
+            //CheckFind = new CheckFind(nodeMaxR[0].Node.Y, nodeMaxC[0].Node.X, nodeMinR[0].Node.Y, nodeMinC[0].Node.X, _grideViews);
             
         }
 

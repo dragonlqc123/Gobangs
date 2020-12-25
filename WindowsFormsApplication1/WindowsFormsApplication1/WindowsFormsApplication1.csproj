@@ -29,7 +29,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -91,14 +91,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity\delete\C_Point.cs" />
-    <Compile Include="Entity\Direction\HENG.cs" />
-    <Compile Include="Entity\Direction\Nodes.cs" />
-    <Compile Include="Entity\Direction\SHU.cs" />
-    <Compile Include="Entity\Direction\YOUXIE.cs" />
-    <Compile Include="Entity\Direction\ZUOXIE.cs" />
+    <Compile Include="Config\CheckerboardConfig.cs" />
+    <Compile Include="Entity\C_Point.cs" />
     <Compile Include="Entity\IDisplay.cs" />
-    <Compile Include="Layout\Analysis\CheckFind.cs" />
     <Compile Include="Chessboard.cs" />
     <Compile Include="Com.cs" />
     <Compile Include="Entity\CPoint.cs" />
@@ -110,15 +105,13 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Layout\Analysis\Analysis.cs" />
-    <Compile Include="Layout\Analysis\Contrast.cs" />
     <Compile Include="Layout\LayoutNode.cs" />
     <Compile Include="Layout\ReturnInfo.cs" />
-    <Compile Include="Layout\Tools\DrawTool.cs" />
+    <Compile Include="Layout\DrawTool.cs" />
     <Compile Include="Entity\Node.cs" />
-    <Compile Include="operators\Computer.cs" />
-    <Compile Include="operators\Operation.cs" />
-    <Compile Include="operators\User.cs" />
+    <Compile Include="StateMachine\Operators\Computer.cs" />
+    <Compile Include="StateMachine\Operators\Operation.cs" />
+    <Compile Include="StateMachine\Operators\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectangleNew\Delegates\EventDelegate.cs" />
@@ -185,9 +178,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entity\Direction\branch\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Brains\subtemplate.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

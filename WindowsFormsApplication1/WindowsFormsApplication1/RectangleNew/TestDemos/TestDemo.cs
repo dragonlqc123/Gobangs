@@ -68,6 +68,10 @@ namespace WindowsFormsApplication1.RectangleNew
             return _ls;
         }
 
+        public bool CheckVictory(WindowsFormsApplication1.Node node, object condition)
+        {
+            return generateRectangle.CheckVictory(node.cpoint.X + "," + node.cpoint.Y, condition);
+        }
 
         #region test
         public C_Point Test(string key)
