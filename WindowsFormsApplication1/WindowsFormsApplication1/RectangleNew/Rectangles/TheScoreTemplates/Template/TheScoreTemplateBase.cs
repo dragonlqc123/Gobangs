@@ -13,9 +13,11 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
         protected string FileName { get; private set; }
         protected virtual string Extension { get { return ".txt"; } }
 
+        private string _path;
         protected TheScoreTemplateBase(string fileName, StrategyTheScore<K, V> strategyTheScore)
         {
-            FileName = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,(fileName +Extension));
+            _path = AppDomain.CurrentDomain.BaseDirectory + "Brains";
+            FileName = System.IO.Path.Combine(_path, (fileName +Extension));
             this.strategyTheScore = strategyTheScore;
         }
 
@@ -28,7 +30,7 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
             try
             {
                 var theScoreDic = new Dictionary<string, int>();
-                using (System.IO.StreamReader sr = new System.IO.StreamReader(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName)))
+                using (System.IO.StreamReader sr = new System.IO.StreamReader(System.IO.Path.Combine(_path, fileName)))
                 {
                     string line;
                     while ((line = sr.ReadLine()) != null)
@@ -53,7 +55,7 @@ namespace WindowsFormsApplication1.RectangleNew.Rectangles
 
         protected void WriteTheScoreTemplate(string key, string fileName)
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FileName), true))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(Path.Combine(_path, FileName), true))
             {
                 file.WriteLine(key);
             }
